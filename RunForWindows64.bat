@@ -68,6 +68,6 @@ if errorlevel 1 (
 )
 
 :: Deactivate virtual environment
-deactivate
+call venv\Scripts\deactivate.bat
 
 pause
