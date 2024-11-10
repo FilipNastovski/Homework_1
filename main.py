@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
         print("Getting issuer codes...")
         issuer_codes = first_pipe.get_issuer_codes()
-        #issuer_codes = ["ADIN"]
+        #issuer_codes = ["ADIN", "ALK"]
         print(f"Found {len(issuer_codes)} valid issuer codes\n")
 
         print("Filtering issuer codes...")
