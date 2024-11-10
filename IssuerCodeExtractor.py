@@ -26,7 +26,7 @@ class IssuerCodeExtractor:
             self.driver.get(self.url)
 
             # Wait for dropdown to be present
-            dropdown = WebDriverWait(self.driver, 10).until(
+            dropdown = WebDriverWait(self.driver, 40).until(
                 EC.presence_of_element_located((By.ID, "Code"))
             )
 

@@ -38,7 +38,7 @@ def run_for_benchmark(first_pipe, second_pipe, third_pipe):
     start_time = time.time()
 
     third_pipe.update_data(update_info=second_pipe.check_data_currency(first_pipe.filter_codes(
-        first_pipe.get_issuer_codes())), max_threads=10)
+        first_pipe.get_issuer_codes())), max_threads=12)
 
     execution_time = time.time() - start_time
 
@@ -61,6 +61,8 @@ if __name__ == "__main__":
         print("Checking and installing required dependencies...")
         check_dependencies()
 
+        # TO DO add a query mode only for fetching data from database
+
         print("Enter string \"bench\" to run the program in benchmark mode or enter a number to exec normally")
         print("Enter the number of threads to be used in (Default = 4)")
 
@@ -76,12 +78,12 @@ if __name__ == "__main__":
         start_time = time.time()
 
         print("Getting issuer codes...")
-        # issuer_codes = first_pipe.get_issuer_codes()
-        issuer_codes_unfiltered = ["ADIN"]
-        print(f"Found {len(issuer_codes_unfiltered)} valid issuer codes\n")
+        issuer_codes = first_pipe.get_issuer_codes()
+        #issuer_codes = ["ADIN"]
+        print(f"Found {len(issuer_codes)} valid issuer codes\n")
 
         print("Filtering issuer codes...")
-        issuer_codes = first_pipe.filter_codes(issuer_codes_unfiltered)
+        issuer_codes = first_pipe.filter_codes(issuer_codes)
         print(f"Remaining codes: {len(issuer_codes)}\n")
 
         print("Checking data currency...")
@@ -105,7 +107,7 @@ if __name__ == "__main__":
             if issuer_code_for_sample in issuer_codes:
                 print("Enter how many rows to fetch:")
                 num_rows = int(input())
-                if 0 < num_rows <= 100:
+                if 0 < num_rows <= 300:
                     print(second_pipe.fetch_sample_data(issuer_code=issuer_code_for_sample, limit=num_rows))
                 else:
                     print(second_pipe.fetch_sample_data(limit=100))
