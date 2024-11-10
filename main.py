@@ -50,6 +50,27 @@ def run_for_benchmark(first_pipe, second_pipe, third_pipe):
     print("Press enter to close the program...")
     input()
 
+def run_query_mode():
+    while True:
+        print("Enter issuer code you want the data for:")
+        issuer_code_for_sample = input()
+        if issuer_code_for_sample in issuer_codes:
+            print("Enter how many rows to fetch:")
+            num_rows = int(input())
+            if 0 < num_rows <= 500:
+                print(second_pipe.fetch_sample_data(issuer_code=issuer_code_for_sample, limit=num_rows))
+            else:
+                print(second_pipe.fetch_sample_data(limit=500))
+        else:
+            print("The code you entered is not valid")
+
+        print("Continue to query? ('n' for No, 'y' for Yes):")
+        usr_in = input()
+        if usr_in == 'y':
+            pass
+        else:
+            exit(11)
+
 
 if __name__ == "__main__":
     try:
@@ -62,15 +83,21 @@ if __name__ == "__main__":
         check_dependencies()
 
         # TO DO add a query mode only for fetching data from database
-
+        print("Enter string \"query\" to run the program in query mode")
         print("Enter string \"bench\" to run the program in benchmark mode or enter a number to exec normally")
+        print("Enter string \"normal\" to run the program in normal (or leave blank to run the program in normal mode)")
+
+        user_input = input()
+        if user_input == "query":
+            run_query_mode()
+        if user_input == "bench":
+            run_for_benchmark(first_pipe, second_pipe, third_pipe)
+            exit(10)
+
         print("Enter the number of threads to be used in (Default = 4)")
 
         thread_number = input()
-        if thread_number == "bench":
-            run_for_benchmark(first_pipe, second_pipe, third_pipe)
-            exit(10)
-        elif thread_number.isdigit() and 1 < int(thread_number) <= 32:
+        if thread_number.isdigit() and 1 < int(thread_number) <= 32:
             thread_number = int(thread_number)
         else:
             thread_number = 4
