@@ -39,13 +39,11 @@ This application automates the collection and processing of historical stock mar
 
 3. **Maintainability**
    - Modular code structure
-   - Clear documentation
    - Version control
 
 4. **Usability**
-   - Simple setup process
+   - Simple and automatic setup process
    - Clear error messages
-   - Minimal user intervention needed
 
 ## System Architecture
 
@@ -121,10 +119,6 @@ The application uses SQLite (`mse_stocks.db`) with the following structure:
 - Volume: Trading volume
 - Turnover: Daily turnover in denars
 
-## Error Handling
-- Network errors are automatically retried
-- Failed scraping attempts are logged
-- Database errors trigger rollback mechanisms
 
 ## Data Flow
 1. Extract issuer codes from MSE website
@@ -133,15 +127,6 @@ The application uses SQLite (`mse_stocks.db`) with the following structure:
 4. Retrieve and process missing data
 5. Store formatted data in database
 
-## Contributing
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-[Specify your license here]
 
 ## Contact
-[Your contact information]
+[Filip Nastovski 221550 filip.nastovski.1@students.finki.ukim.mk]
