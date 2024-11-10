@@ -79,9 +79,32 @@ The system systematically retrieves, processes, and stores daily stock market da
    - Formats data according to requirements
    - Handles web page navigation
   
-### USAGE
+### Usage
 
-![Demo of the program in action](Media/Videos/QueryVideoExample.gif)
+#### Query Mode
+This demo shows how to use the query mode to fetch specific data based on user input.
+
+![Demo of the query mode](Media/Videos/QueryVideoExample.gif)
+
+#### Normal Mode
+In this mode, data is retrieved automatically based on predefined parameters.
+
+![Demo of the normal mode](Media/Videos/RetrivingDataVideoExample.gif)
+
+---
+
+### Example Outputs
+
+- **Data Update After Scraping:**  
+  The following screenshot shows a table after data scraping is completed, with updated values.
+
+  ![Screenshot of a table after scraping](Media/Images/DataUpdateExample.png)
+
+- **Queried Table Example:**  
+  This table displays data from a query operation, showing specific fields as requested.
+
+  ![Demo of a queried table](Media/Images/TableExample.png)
+
 
 ## Setup Instructions
 
