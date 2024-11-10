@@ -1,7 +1,20 @@
 # Macedonian Stock Exchange Data Analysis
 
+# Macedonian Stock Exchange Data Analysis
+
 ## Project Description
-This application automates the collection and processing of historical stock market data from the Macedonian Stock Exchange (MSE). Using a Pipe and Filter architecture, it systematically retrieves, processes, and stores daily stock market data for all listed issuers over the past decade. The system automatically handles data updates, ensuring the database remains current while avoiding duplicate entries.
+This application automates the collection and processing of historical stock market data from the Macedonian Stock Exchange (MSE). At its core, the application implements a Pipe and Filter architectural pattern, where each component acts as a specialized filter that processes and transforms data before passing it to the next component through pipes.
+
+The pipeline consists of several key filters:
+1. **Issuer Extraction Filter**: Retrieves and filters issuer codes from the MSE website
+2. **Date Validation Filter**: Checks existing data and determines required date ranges
+3. **Data Retrieval Filter**: Fetches missing historical data for each issuer
+4. **Data Processing Filter**: Formats and validates the retrieved data
+5. **Storage Filter**: Manages database operations and data persistence
+
+Each filter operates independently, handling a specific aspect of the data processing workflow while maintaining loose coupling between components. This architecture enables efficient data flow, parallel processing capabilities, and easy system maintenance and scalability.
+
+The system systematically retrieves, processes, and stores daily stock market data for all listed issuers over the past decade. Through automated data updates and strict validation, the system ensures data integrity while avoiding duplicate entries. The implementation leverages multi-threading for optimal performance during data retrieval and processing operations.
 
 ## Requirements
 
