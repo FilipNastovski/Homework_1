@@ -78,6 +78,10 @@ The system systematically retrieves, processes, and stores daily stock market da
    - Scrapes historical stock data
    - Formats data according to requirements
    - Handles web page navigation
+  
+### USAGE
+
+![Demo of the program in action](Media/Videos/QueryVideoExample.gif)
 
 ## Setup Instructions
 
