@@ -81,7 +81,8 @@ The system systematically retrieves, processes, and stores daily stock market da
   
 ### USAGE
 
-![Demo of the program in action](Media/Videos/QueryVideoExample.gif)
+![Demo of the query mode](Media/Videos/QueryVideoExample.gif)
+![Demo of the normal mode](Media/Videos/RetrivingDataVideoExample.gif)
 
 ## Setup Instructions
 
