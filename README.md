@@ -142,4 +142,5 @@ The application uses SQLite (`mse_stocks.db`) with the following structure:
 
 
 ## Contact
-[Filip Nastovski 221550 filip.nastovski.1@students.finki.ukim.mk]
+Filip Nastovski 221550
+filip.nastovski.1@students.finki.ukim.mk
