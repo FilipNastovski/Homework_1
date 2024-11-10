@@ -1,5 +1,6 @@
 pandas
 selenium
+webdriver-manager
 typing  # This is built into Python, so no need to include
 queue   # This is built into Python, so no need to include
 threading  # This is built into Python, so no need to include

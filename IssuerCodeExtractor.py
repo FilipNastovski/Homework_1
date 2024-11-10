@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 from typing import List
 
-
 class IssuerCodeExtractor:
     """First pipe: Extract and filter issuer codes from MSE website."""
 

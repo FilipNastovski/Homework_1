@@ -15,18 +15,49 @@ if not exist venv (
     python -m venv venv
 )
 
-:: Activate virtual environment
+:: Activate virtual environment and show confirmation
 echo Activating virtual environment...
 call venv\Scripts\activate
+echo Virtual environment activated!
 
-:: Install or upgrade pip
-python -m pip install --upgrade pip
+:: Clear existing packages (optional, uncomment if needed)
+:: pip uninstall -y -r requirements.txt
 
-:: Install requirements
-echo Installing requirements...
-pip install -r requirements.txt
+:: Install each package individually with confirmation
+echo Installing pandas...
+pip install pandas
+if errorlevel 1 (
+    echo Failed to install pandas!
+    pause
+    exit /b 1
+)
+
+echo Installing selenium...
+pip install selenium
+if errorlevel 1 (
+    echo Failed to install selenium!
+    pause
+    exit /b 1
+)
+
+echo Installing webdriver-manager...
+pip install webdriver-manager
+if errorlevel 1 (
+    echo Failed to install webdriver-manager!
+    pause
+    exit /b 1
+)
+
+:: Verify installations
+echo.
+echo Verifying installations...
+echo.
+pip list | findstr "pandas"
+pip list | findstr "selenium"
+pip list | findstr "webdriver-manager"
 
 :: Run the main program
+echo.
 echo Starting the program...
 python main.py
 
