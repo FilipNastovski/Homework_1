@@ -1,7 +1,5 @@
 # Macedonian Stock Exchange Data Analysis
 
-# Macedonian Stock Exchange Data Analysis
-
 ## Project Description
 This application automates the collection and processing of historical stock market data from the Macedonian Stock Exchange (MSE). At its core, the application implements a Pipe and Filter architectural pattern, where each component acts as a specialized filter that processes and transforms data before passing it to the next component through pipes.
 
