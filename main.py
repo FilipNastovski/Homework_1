@@ -51,6 +51,9 @@ def run_for_benchmark(first_pipe, second_pipe, third_pipe):
     input()
 
 def run_query_mode():
+    issuer_codes = first_pipe.get_issuer_codes()
+    print("Valid codes:")
+    print(issuer_codes)
     while True:
         print("Enter issuer code you want the data for:")
         issuer_code_for_sample = input()
