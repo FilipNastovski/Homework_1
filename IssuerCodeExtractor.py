@@ -1,6 +1,6 @@
-import requests
 from bs4 import BeautifulSoup
 from typing import List
+import requests
 
 class IssuerCodeExtractor:
     def __init__(self):
