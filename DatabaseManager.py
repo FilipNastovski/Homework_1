@@ -48,6 +48,7 @@ class DatabaseManager:
             else:
                 return None
 
+    # CAN BE IMPROVED
     def check_data_currency(self, codes: List[str]) -> Dict[str, Optional[datetime]]:
         """Check which issuers need updating and their last recorded dates."""
         today = datetime.now().date()

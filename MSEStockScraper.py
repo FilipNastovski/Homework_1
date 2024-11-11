@@ -177,11 +177,3 @@ class MSEStockScraper:
 
             if self.driver:
                 self.driver.quit()
-
-    def save_to_csv(self, data, filename=None):
-        """Save the scraped data to a CSV file"""
-        if filename is None:
-            filename = f"{self.symbol}.csv"
-
-        data.to_csv(filename, index=False)
-        print(f"Data has been saved to {filename}")
