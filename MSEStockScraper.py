@@ -5,9 +5,10 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import warnings
 
-no_table_codes = []
+# no_table_codes = []
 
 warnings.filterwarnings("ignore", category=FutureWarning, message="Passing literal html to 'read_html' is deprecated")
+
 
 def clean_numeric(value):
     """Clean numeric values, handling both string and numeric inputs"""
@@ -18,6 +19,7 @@ def clean_numeric(value):
     if isinstance(value, str):
         return float(value.replace(',', '').replace(' ', ''))
     return None
+
 
 class MSEStockScraper:
     def __init__(self, issuer_code):
@@ -57,7 +59,7 @@ class MSEStockScraper:
 
             async with aiohttp.ClientSession() as session:
                 async with session.get(self.url, params=params) as response:
-                    #print(f"Response Status: {response.status}")
+                    # print(f"Response Status: {response.status}")
                     html = await response.text()
                     soup = BeautifulSoup(html, "html.parser")
 
@@ -82,7 +84,7 @@ class MSEStockScraper:
                         all_data.append(df)
                     else:
                         print(f"No table found for {self.symbol}")
-                        no_table_codes.append(self.symbol)
+                        # no_table_codes.append(self.symbol)
 
             if all_data:
                 final_data = pd.concat(all_data, ignore_index=True)

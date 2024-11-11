@@ -141,7 +141,8 @@ async def main():
             else:
                 print("The code you entered is not valid")
 
-        print(MSEStockScraper.no_table_codes)
+        # For debugging purposes
+        # print(MSEStockScraper.no_table_codes)
 
         print("Press enter to close the program...")
         input()
