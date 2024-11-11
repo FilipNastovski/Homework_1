@@ -5,7 +5,6 @@ echo Starting MSE Stock Scraper Setup...
 python --version >nul 2>&1
 if errorlevel 1 (
     echo Python is not installed! Please install Python 3.12 or later.
-    pause
     exit /b 1
 )
 
@@ -15,36 +14,23 @@ if not exist venv (
     python -m venv venv
 )
 
-:: Activate virtual environment and show confirmation
+:: Activate virtual environment
 echo Activating virtual environment...
 call venv\Scripts\activate
-echo Virtual environment activated!
 
-:: Install packages from requirements.txt
-echo Installing dependencies from requirements.txt...
+:: Install required dependencies
+echo Installing dependencies...
 pip install -r requirements.txt
-if errorlevel 1 (
-    echo Failed to install required packages!
-    pause
-    exit /b 1
-)
 
 :: Verify installations
-echo.
 echo Verifying installations...
-echo.
-pip list
+pip list | findstr "pandas"
+pip list | findstr "selenium"
+pip list | findstr "webdriver-manager"
 
 :: Run the main program
-echo.
 echo Starting the program...
 python main.py
-
-:: Keep the window open if there's an error
-if errorlevel 1 (
-    echo An error occurred! Check the output above.
-    pause
-)
 
 :: Deactivate virtual environment
 call venv\Scripts\deactivate.bat

@@ -1,41 +1,39 @@
 #!/bin/bash
 
-# Function to check for python version
-check_python() {
-    python3 --version > /dev/null 2>&1
-    if [[ $? -ne 0 ]]; then
-        echo "Python is not installed! Please install Python 3.12 or later."
-        exit 1
-    fi
-}
+# Start the setup process
+echo "Starting MSE Stock Scraper Setup..."
 
-# Check for Python 3.12 or later
-check_python
+# Check if Python is installed
+python3 --version > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Python is not installed! Please install Python 3.12 or later."
+    exit 1
+fi
 
-# Check if virtual environment exists, create if it doesn't
+# Check if virtual environment directory exists
 if [ ! -d "venv" ]; then
     echo "Creating virtual environment..."
     python3 -m venv venv
 fi
 
-# Activate virtual environment
+# Activate the virtual environment
 echo "Activating virtual environment..."
 source venv/bin/activate
 
-# Install dependencies
-echo "Installing dependencies from requirements.txt..."
-pip install --upgrade pip
+# Install required dependencies
+echo "Installing dependencies..."
 pip install -r requirements.txt
 
 # Verify installations
 echo "Verifying installations..."
-pip list | grep -E "pandas|selenium|beautifulsoup4|aiohttp"
+pip list | grep -E "pandas|selenium|webdriver-manager"
 
 # Run the main program
-echo "Running the program..."
+echo "Starting the program..."
 python main.py
 
-# Deactivate virtual environment after program execution
+# Deactivate virtual environment
 deactivate
 
-echo "Script finished. The virtual environment has been deactivated."
+# Keep the terminal open for any error output
+echo "Script completed."
