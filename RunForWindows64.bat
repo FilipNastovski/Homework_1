@@ -22,12 +22,6 @@ call venv\Scripts\activate
 echo Installing dependencies...
 pip install -r requirements.txt
 
-:: Verify installations
-echo Verifying installations...
-pip list | findstr "pandas"
-pip list | findstr "selenium"
-pip list | findstr "webdriver-manager"
-
 :: Run the main program
 echo Starting the program...
 python main.py

@@ -24,9 +24,6 @@ source venv/bin/activate
 echo "Installing dependencies..."
 pip install -r requirements.txt
 
-# Verify installations
-echo "Verifying installations..."
-pip list | grep -E "pandas|selenium|webdriver-manager"
 
 # Run the main program
 echo "Starting the program..."
