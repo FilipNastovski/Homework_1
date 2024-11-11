@@ -5,6 +5,8 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import warnings
 
+no_table_codes = []
+
 warnings.filterwarnings("ignore", category=FutureWarning, message="Passing literal html to 'read_html' is deprecated")
 
 def clean_numeric(value):
@@ -80,6 +82,7 @@ class MSEStockScraper:
                         all_data.append(df)
                     else:
                         print(f"No table found for {self.symbol}")
+                        no_table_codes.append(self.symbol)
 
             if all_data:
                 final_data = pd.concat(all_data, ignore_index=True)

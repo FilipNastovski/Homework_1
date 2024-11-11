@@ -7,6 +7,9 @@ import sys
 import importlib.util
 import subprocess
 
+import MSEStockScraper
+
+
 def check_dependencies():
     """Check and install required dependencies"""
 
@@ -137,6 +140,8 @@ async def main():
                     print(second_pipe.fetch_sample_data(limit=10000))
             else:
                 print("The code you entered is not valid")
+
+        print(MSEStockScraper.no_table_codes)
 
         print("Press enter to close the program...")
         input()
