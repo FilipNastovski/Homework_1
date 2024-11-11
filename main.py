@@ -1,16 +1,16 @@
+import asyncio
 import IssuerCodeExtractor
 import DatabaseManager
 import DataScraper
-import subprocess
 import time
 import sys
-
+import importlib.util
+import subprocess
 
 def check_dependencies():
     """Check and install required dependencies"""
 
-    """Check Python version and install required dependencies"""
-    # Check if Python version is 3.12 or above
+    # Check Python version
     if sys.version_info < (3, 12):
         print("Python 3.12 or higher is required.")
         sys.exit(1)
@@ -18,37 +18,32 @@ def check_dependencies():
         print(f"Python {sys.version.split()[0]} detected. Proceeding with dependency check.\n")
 
     required_packages = {
-        'lxml': 'lxml',
+        'aiohttp': 'aiohttp',
         'pandas': 'pandas',
-        'selenium': 'selenium',
-        'sqlite3': 'sqlite3'
+        'beautifulsoup4': 'bs4',
+        'sqlite3': 'sqlite3',
+        'asyncio': 'asyncio',
+        'queue': 'queue',
+        'threading': 'threading',
+        'time': 'time',
     }
 
-    for package, pip_name in required_packages.items():
+    for package_name, module_name in required_packages.items():
         try:
-            __import__(package)
-        except ImportError:
-            print(f"Installing required package: {package}")
-            subprocess.check_call([sys.executable, "-m", "pip", "install", pip_name])
-            print(f"Successfully installed {package}")
-
-
-def run_for_benchmark(first_pipe, second_pipe, third_pipe):
-    """Run in most optimised mode for benchmark"""
-    start_time = time.time()
-
-    third_pipe.update_data(update_info=second_pipe.check_data_currency(first_pipe.filter_codes(
-        first_pipe.get_issuer_codes())), max_threads=12)
-
-    execution_time = time.time() - start_time
-
-    print(f"\nScraping completed successfully in {execution_time:.2f} seconds\n\n")
-
-    print("Press enter to close the program...")
-    input()
-
+            spec = importlib.util.find_spec(module_name)
+            if spec is None:
+                print(f"Installing required package: {package_name}")
+                subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
+            else:
+                print(f"Found required package: {package_name}")
+        except (ImportError, subprocess.CalledProcessError):
+            print(f"Error installing required package: {package_name}")
+            sys.exit(1)
+    print("\n\n")
 
 def run_query_mode():
+    first_pipe = IssuerCodeExtractor.IssuerCodeExtractor()
+    second_pipe = DatabaseManager.DatabaseManager()
     print("Getting issuer codes...")
     issuer_codes = first_pipe.get_issuer_codes()
     issuer_codes = first_pipe.filter_codes(issuer_codes)
@@ -76,7 +71,7 @@ def run_query_mode():
             exit(11)
 
 
-if __name__ == "__main__":
+async def main():
     try:
 
         first_pipe = IssuerCodeExtractor.IssuerCodeExtractor()
@@ -87,15 +82,12 @@ if __name__ == "__main__":
         check_dependencies()
 
         print("Enter string \"query\" to run the program in query mode")
-        print("Enter string \"bench\" to run the program in benchmark mode or enter a number to exec normally")
+        #print("Enter string \"bench\" to run the program in benchmark mode or enter a number to exec normally")
         print("Enter string \"normal\" to run the program in normal (or leave blank to run the program in normal mode)")
 
         user_input = input()
         if user_input == "query":
             run_query_mode()
-        if user_input == "bench":
-            run_for_benchmark(first_pipe, second_pipe, third_pipe)
-            exit(10)
 
         print("Enter the number of threads to be used (leave empty for default = 200)")
 
@@ -109,8 +101,7 @@ if __name__ == "__main__":
 
         print("Getting issuer codes...")
         issuer_codes = first_pipe.get_issuer_codes()
-        # issuer_codes = ["ADIN", "ALK"]
-        issuer_codes = issuer_codes[:10]
+        #issuer_codes = issuer_codes[:5]
         print(f"Found {len(issuer_codes)} valid issuer codes\n")
 
         print("Filtering issuer codes...")
@@ -123,7 +114,7 @@ if __name__ == "__main__":
 
         if update_info:
             print("Starting data update...\n")
-            third_pipe.update_data(update_info=update_info, max_threads=thread_number)
+            await third_pipe.update_data(update_info=update_info)
             print("\nData update completed\n")
         else:
             print("All data is up to date")
@@ -151,3 +142,7 @@ if __name__ == "__main__":
         input()
     except Exception as e:
         print(f"An error occurred: {str(e)}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -1,11 +1,11 @@
-import requests
-from bs4 import BeautifulSoup
+from datetime import timedelta
+
+import aiohttp
 import pandas as pd
-from datetime import datetime
+from bs4 import BeautifulSoup
 import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning, message="Passing literal html to 'read_html' is deprecated")
-
 
 def clean_numeric(value):
     """Clean numeric values, handling both string and numeric inputs"""
@@ -16,7 +16,6 @@ def clean_numeric(value):
     if isinstance(value, str):
         return float(value.replace(',', '').replace(' ', ''))
     return None
-
 
 class MSEStockScraper:
     def __init__(self, issuer_code):
@@ -44,69 +43,87 @@ class MSEStockScraper:
             "Turnover in BEST (denars)"
         ]
 
-    def scrape_table(self, start_date, end_date):
-        """Scrape the data table and return as a DataFrame"""
+    async def scrape_table(self, start_date, end_date):
+        """Scrape the data table for the entire date range and return as a DataFrame."""
         try:
+            # Convert start_date and end_date to strings in "YYYY-MM-DD" format
             params = {
-                "FromDate": start_date,
-                "ToDate": end_date
+                "FromDate": start_date.strftime("%Y-%m-%d"),
+                "ToDate": end_date.strftime("%Y-%m-%d")
             }
-            response = requests.get(self.url, params=params)
-            soup = BeautifulSoup(response.content, "html.parser")
-
-            table = soup.find("table", id="resultsTable")
-            if table:
-                # Read table without headers
-                df = pd.read_html(str(table), header=None)[0]
-                df.columns = self.column_names
-
-                # Keep only the desired columns
-                df = df[self.columns_to_keep]
-
-                # Convert numeric columns
-                numeric_columns = ['Last Trade Price', 'Max', 'Min', 'Volume', 'Turnover in BEST (denars)']
-                for col in numeric_columns:
-                    if col in df.columns:
-                        df[col] = df[col].apply(clean_numeric)
-
-                # Convert date column to datetime
-                df['Date'] = pd.to_datetime(df['Date']).dt.date
-
-                return df
-            else:
-                return None
-
-        except Exception as e:
-            print(f"Error scraping table: {self.symbol}")
-            return None
-
-    def scrape_historical_data(self, years=10):
-        """Scrape data for the specified number of years"""
-        try:
-            current_year = datetime.now().year
-            start_year = current_year - years + 1
-
             all_data = []
 
-            for year in range(start_year, current_year + 1):
-                start_date = f"01/01/{year}"
-                end_date = f"12/31/{year}"
-                print(f"Scraping data for year {year} code: {self.symbol}")
-                year_data = self.scrape_table(start_date, end_date)
-                if year_data is not None and not year_data.empty:
-                    print(f"Successfully scraped {len(year_data)} rows for year {year} Code: {self.symbol}")
-                    all_data.append(year_data)
-                else:
-                    print(f"Scraping data for year {year} code: {self.symbol} error: NO DATA")
+            async with aiohttp.ClientSession() as session:
+                async with session.get(self.url, params=params) as response:
+                    #print(f"Response Status: {response.status}")
+                    html = await response.text()
+                    soup = BeautifulSoup(html, "html.parser")
+
+                    table = soup.find("table", id="resultsTable")
+                    if table:
+                        # Read table without headers
+                        df = pd.read_html(str(table), header=None)[0]
+                        df.columns = self.column_names
+
+                        # Keep only the desired columns
+                        df = df[self.columns_to_keep]
+
+                        # Convert numeric columns
+                        numeric_columns = ['Last Trade Price', 'Max', 'Min', 'Volume', 'Turnover in BEST (denars)']
+                        for col in numeric_columns:
+                            if col in df.columns:
+                                df[col] = df[col].apply(clean_numeric)
+
+                        # Convert date column to datetime
+                        df['Date'] = pd.to_datetime(df['Date']).dt.date
+
+                        all_data.append(df)
+                    else:
+                        print(f"No table found for {self.symbol}")
 
             if all_data:
                 final_data = pd.concat(all_data, ignore_index=True)
                 final_data = final_data.drop_duplicates()
-                final_data.sort_values('Date', ascending=False, inplace=True)
                 return final_data
             else:
-                raise Exception("No data was successfully scraped")
+                print(f"No data retrieved for {self.symbol}")
+                return None
 
         except Exception as e:
-            print(f"Error scraping historical data: {self.symbol}")
+            print(f"Error scraping table: {self.symbol} - {str(e)}")
+            return None
+
+    async def scrape_historical_data(self, start_date, end_date):
+        """Scrape data for the specified date range in yearly increments."""
+        try:
+            print(f"Scraping data for code: {self.symbol}")
+            all_data = []  # To store the combined data from each yearly scrape
+
+            current_start = start_date
+            while current_start < end_date:
+                # Calculate the end of the current one-year period
+                current_end = min(current_start + timedelta(days=365), end_date)
+
+                # Scrape data for the current year range
+                data = await self.scrape_table(current_start, current_end)
+                if data is not None and not data.empty:
+                    all_data.append(data)
+                    print(f"Scraped {len(data)} rows from {current_start} to {current_end} for {self.symbol}")
+                else:
+                    print(f"No data found from {current_start} to {current_end}")
+
+                # Move to the next year
+                current_start = current_end + timedelta(days=1)
+
+            # Combine all data into a single DataFrame if any data was found
+            if all_data:
+                final_data = pd.concat(all_data, ignore_index=True)
+                print(f"Successfully scraped {len(final_data)} rows in total for code: {self.symbol}")
+                return final_data
+            else:
+                print(f"Scraping data for code: {self.symbol} error: NO DATA")
+                return None
+
+        except Exception as e:
+            print(f"Error scraping historical data for code: {self.symbol} - {str(e)}")
             return None
