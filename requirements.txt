@@ -1,7 +1,18 @@
-pandas
+pandas~=2.2.3
 selenium
 webdriver-manager
 typing  # This is built into Python, so no need to include
 queue   # This is built into Python, so no need to include
 threading  # This is built into Python, so no need to include
 sqlite3  # This is built into Python, so no need to include
+pip~=24.0
+beautifulsoup4~=4.12.3
+pytz~=2024.2
+idna~=3.10
+numpy~=1.26.4
+scipy~=1.13.0
+python-dateutil~=2.9.0.post0
+certifi~=2024.8.30
+urllib3~=2.2.3
+six~=1.16.0
+requests~=2.32.3

@@ -100,12 +100,13 @@ class DatabaseManager:
             print(f"Error saving data for {issuer_code}: {str(e)}")
             raise
 
-    def fetch_sample_data(self, issuer_code: Optional[str] = None, limit: int = 10):
+    def fetch_sample_data(self, issuer_code: Optional[str] = None, limit: int = 100):
         """Fetch a sample of data from the stock_data table, optionally filtered by issuer code."""
         with sqlite3.connect(self.db_path) as conn:
             # Construct the query with an optional WHERE clause
             if issuer_code:
-                query = "SELECT * FROM stock_data WHERE issuer_code = ? AND Volume > 0 LIMIT ?"
+                query = "SELECT * FROM stock_data WHERE issuer_code = ? LIMIT ?" #Show empty rows
+                #query = "SELECT * FROM stock_data WHERE issuer_code = ? AND Volume > 0 LIMIT ?" #hide empty rows
                 params = (issuer_code, limit)
             else:
                 query = "SELECT * FROM stock_data WHERE Volume > 0 LIMIT ?"

@@ -21,9 +21,6 @@ class DataScraper:
         """Scrape data for a single issuer."""
         try:
             scraper = MSEStockScraper.MSEStockScraper(issuer_code)
-            # years = 2 if not start_date else (datetime.now().date() - start_date).days // 365 + 1
-            # data = scraper.scrape_historical_data(years=years)
-
             today = datetime.now().date()  # Get today's date (without time)
 
             if not start_date:
@@ -65,7 +62,7 @@ class DataScraper:
                     self.errors.append(f"Queue processing error: {str(e)}")
                 self.queue.task_done()
 
-    def update_data(self, update_info: Dict[str, Optional[datetime]], max_threads: int = 4):
+    def update_data(self, update_info: Dict[str, Optional[datetime]], max_threads: int = 200):
         """Update data for all issuers that need updating."""
         # Clear previous errors
         self.errors = []
