@@ -1,5 +1,5 @@
 from typing import List, Optional, Dict
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import pandas as pd
 import sqlite3
 
@@ -42,22 +42,24 @@ class DatabaseManager:
                 (issuer_code,)
             )
             result = cursor.fetchone()
-            # Convert the string to a datetime.date object, if available
             if result and result['max_date']:
                 return datetime.strptime(result['max_date'], "%Y-%m-%d").date()
             else:
                 return None
 
-    # CAN BE IMPROVED
-    def check_data_currency(self, codes: List[str]) -> Dict[str, Optional[datetime]]:
-        """Check which issuers need updating and their last recorded dates."""
-        today = datetime.now().date()
+    def check_data_currency(self, codes: List[str]) -> Dict[str, Optional[date]]:
+        """Check which issuers need updating and their start dates for scraping."""
+        today = datetime.now().date()  # Use only the date
+        ten_years_ago = today - timedelta(days=365 * 10)
         update_info = {}
 
         for code in codes:
             last_date = self.get_last_date(code)
-            if not last_date or last_date < today:
-                update_info[code] = last_date
+            if not last_date:
+                # No data exists, start from 10 years ago
+                update_info[code] = ten_years_ago
+            elif last_date < today:
+                update_info[code] = last_date + timedelta(days=1)
 
         return update_info
 
@@ -100,12 +102,13 @@ class DatabaseManager:
             print(f"Error saving data for {issuer_code}: {str(e)}")
             raise
 
-    def fetch_sample_data(self, issuer_code: Optional[str] = None, limit: int = 10):
+    def fetch_sample_data(self, issuer_code: Optional[str] = None, limit: int = 100):
         """Fetch a sample of data from the stock_data table, optionally filtered by issuer code."""
         with sqlite3.connect(self.db_path) as conn:
             # Construct the query with an optional WHERE clause
             if issuer_code:
-                query = "SELECT * FROM stock_data WHERE issuer_code = ? AND Volume > 0 LIMIT ?"
+                query = "SELECT * FROM stock_data WHERE issuer_code = ? LIMIT ?" #Show empty rows
+                #query = "SELECT * FROM stock_data WHERE issuer_code = ? AND Volume > 0 LIMIT ?" #hide empty rows
                 params = (issuer_code, limit)
             else:
                 query = "SELECT * FROM stock_data WHERE Volume > 0 LIMIT ?"

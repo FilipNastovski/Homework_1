@@ -20,30 +20,11 @@ echo Activating virtual environment...
 call venv\Scripts\activate
 echo Virtual environment activated!
 
-:: Clear existing packages (optional, uncomment if needed)
-:: pip uninstall -y -r requirements.txt
-
-:: Install each package individually with confirmation
-echo Installing pandas...
-pip install pandas
+:: Install packages from requirements.txt
+echo Installing dependencies from requirements.txt...
+pip install -r requirements.txt
 if errorlevel 1 (
-    echo Failed to install pandas!
-    pause
-    exit /b 1
-)
-
-echo Installing selenium...
-pip install selenium
-if errorlevel 1 (
-    echo Failed to install selenium!
-    pause
-    exit /b 1
-)
-
-echo Installing webdriver-manager...
-pip install webdriver-manager
-if errorlevel 1 (
-    echo Failed to install webdriver-manager!
+    echo Failed to install required packages!
     pause
     exit /b 1
 )
@@ -52,9 +33,7 @@ if errorlevel 1 (
 echo.
 echo Verifying installations...
 echo.
-pip list | findstr "pandas"
-pip list | findstr "selenium"
-pip list | findstr "webdriver-manager"
+pip list
 
 :: Run the main program
 echo.
