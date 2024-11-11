@@ -72,6 +72,9 @@ class MSEStockScraper:
                         # Keep only the desired columns
                         df = df[self.columns_to_keep]
 
+                        # Drop rows with any missing values to save processing time
+                        df = df.dropna()
+
                         # Convert numeric columns
                         numeric_columns = ['Last Trade Price', 'Max', 'Min', 'Volume', 'Turnover in BEST (denars)']
                         for col in numeric_columns:
