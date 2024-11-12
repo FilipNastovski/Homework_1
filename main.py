@@ -44,6 +44,7 @@ def check_dependencies():
             sys.exit(1)
     print("\n\n")
 
+
 def run_query_mode():
     first_pipe = IssuerCodeExtractor.IssuerCodeExtractor()
     second_pipe = DatabaseManager.DatabaseManager()
