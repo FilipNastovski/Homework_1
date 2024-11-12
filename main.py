@@ -85,7 +85,6 @@ async def main():
         check_dependencies()
 
         print("Enter string \"query\" to run the program in query mode")
-        #print("Enter string \"bench\" to run the program in benchmark mode or enter a number to exec normally")
         print("Enter string \"normal\" to run the program in normal (or leave blank to run the program in normal mode)")
 
         user_input = input()
@@ -104,7 +103,6 @@ async def main():
 
         print("Getting issuer codes...")
         issuer_codes = first_pipe.get_issuer_codes()
-        #issuer_codes = issuer_codes[:5]
         print(f"Found {len(issuer_codes)} valid issuer codes\n")
 
         print("Filtering issuer codes...")
