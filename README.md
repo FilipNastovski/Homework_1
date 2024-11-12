@@ -1,6 +1,5 @@
 # Macedonian Stock Exchange Data Analysis
 
-## NOTE: The commits after the deadline were made because the MSE website had changes to the dropdown list that contains all of the issuer codes, rendering the entire program useless without changes to how the issuer codes are retreived. The teaching assistant was informed of this and approved of the changes which did not change the architecture of the code (Including this readme file along with proof of the runtime).
 
 ## Project Description
 This application automates the collection and processing of historical stock market data from the Macedonian Stock Exchange (MSE). At its core, the application implements a Pipe and Filter architectural pattern, where each component acts as a specialized filter that processes and transforms data before passing it to the next component through pipes.
