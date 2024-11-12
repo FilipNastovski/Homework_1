@@ -89,16 +89,16 @@ execution time  = 55.34 seconds
   
 ### Usage
 
-####User Scenarios and Personas
+#### User Scenarios and Personas
 
-#Persona 1: Investor Jane
+# Persona 1: Investor Jane
 Jane is a seasoned investor who closely follows the Macedonian stock market. She is particularly interested in analyzing the performance of individual issuers to identify potential investment opportunities. Jane uses the stock market analysis application to:
 
 Monitor Issuer Performance: Jane regularly checks the application to view historical price trends, calculate key metrics (such as moving averages and price-to-earnings ratios), and compare the performance of different issuers.
 Identify Emerging Trends: Jane uses the application's analytical tools to detect early signs of market shifts or changes in an issuer's financial health. This helps her make informed investment decisions.
 Generate Custom Reports: Jane creates custom reports to highlight specific issuers or market segments that align with her investment strategy. She can export these reports in various formats for further analysis or sharing with her investment team.
 
-#Persona 2: Analyst John
+# Persona 2: Analyst John
 John is a financial analyst at a local investment firm. He uses the stock market analysis application to support his research and advisory services for the firm's clients. John's main use cases include:
 
 Comprehensive Data Access: John relies on the application to provide him with a complete and up-to-date dataset of historical stock market information for the Macedonian exchange.
