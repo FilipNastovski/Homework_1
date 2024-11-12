@@ -1,5 +1,7 @@
 # Macedonian Stock Exchange Data Analysis
 
+## NOTE: The commits after the deadline were made because the MSE website had changes to the dropdown list that contains all of the issuer codes, rendering the entire program useless without changes to how the issuer codes are retreived. The teaching assistant was informed of this and approved of the changes which did not change the architecture of the code (Including this readme file along with proof of the runtime).
+
 ## Project Description
 This application automates the collection and processing of historical stock market data from the Macedonian Stock Exchange (MSE). At its core, the application implements a Pipe and Filter architectural pattern, where each component acts as a specialized filter that processes and transforms data before passing it to the next component through pipes.
 
@@ -13,6 +15,12 @@ The pipeline consists of several key filters:
 Each filter operates independently, handling a specific aspect of the data processing workflow while maintaining loose coupling between components. This architecture enables efficient data flow, parallel processing capabilities, and easy system maintenance and scalability.
 
 The system systematically retrieves, processes, and stores daily stock market data for all listed issuers over the past decade. Through automated data updates and strict validation, the system ensures data integrity while avoiding duplicate entries. The implementation leverages multi-threading for optimal performance during data retrieval and processing operations.
+
+## Execution time
+
+execution time  = 55.34 seconds
+
+![Execution time](Media/Images/RunTime.png)
 
 ## Requirements
 
@@ -81,6 +89,22 @@ The system systematically retrieves, processes, and stores daily stock market da
   
 ### Usage
 
+#### User Scenarios and Personas
+
+# Persona 1: Investor Jane
+Jane is a seasoned investor who closely follows the Macedonian stock market. She is particularly interested in analyzing the performance of individual issuers to identify potential investment opportunities. Jane uses the stock market analysis application to:
+
+Monitor Issuer Performance: Jane regularly checks the application to view historical price trends, calculate key metrics (such as moving averages and price-to-earnings ratios), and compare the performance of different issuers.
+Identify Emerging Trends: Jane uses the application's analytical tools to detect early signs of market shifts or changes in an issuer's financial health. This helps her make informed investment decisions.
+Generate Custom Reports: Jane creates custom reports to highlight specific issuers or market segments that align with her investment strategy. She can export these reports in various formats for further analysis or sharing with her investment team.
+
+# Persona 2: Analyst John
+John is a financial analyst at a local investment firm. He uses the stock market analysis application to support his research and advisory services for the firm's clients. John's main use cases include:
+
+Comprehensive Data Access: John relies on the application to provide him with a complete and up-to-date dataset of historical stock market information for the Macedonian exchange.
+In-depth Analysis: John uses the application's analytical features to perform complex analyses, such as sector comparisons, risk assessment, and forecasting models. This helps him generate insightful reports for the firm's clients.
+Collaboration and Reporting: John collaborates with his team to share data, insights, and custom reports generated from the application. He can easily export data in formats compatible with the firm's internal systems and tools.
+
 #### Query Mode
 This demo shows how to use the query mode to fetch specific data based on user input.
 
@@ -90,8 +114,6 @@ This demo shows how to use the query mode to fetch specific data based on user i
 In this mode, data is retrieved automatically based on predefined parameters.
 
 ![Demo of the normal mode](Media/Videos/RetrivingDataVideoExample.gif)
-
----
 
 ### Example Outputs
 
@@ -129,24 +151,6 @@ The script will:
 - Install required dependencies
 - Initialize the database
 - Start the data collection process
-
-### Manual Setup (if needed)
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# Unix/Linux/Mac:
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the program
-python main.py
-```
 
 ## Database Structure
 The application uses SQLite (`mse_stocks.db`) with the following structure:
