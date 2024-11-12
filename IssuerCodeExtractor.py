@@ -31,10 +31,9 @@ class IssuerCodeExtractor:
                 response.raise_for_status()  # Raise an exception for bad status codes
                 soup = BeautifulSoup(response.content, 'html.parser')
 
-                # Find the table and extract all rows
                 table = soup.find('table', {'id': 'otherlisting-table'})
                 if table:
-                    # Get all rows (skip header row if it exists)
+                    # skip header row if it exists
                     rows = table.find_all('tr')
 
                     # Extract the symbol (first column) from each row
